@@ -51,30 +51,32 @@
 				</div>
 
 				<div class="content">
-					<form action="/user/{{ user_id }}/available_books/" method="post">{% csrf_token %}
-						<table style="border:1px solid black">
+					<table style="border:1px solid black">
+						<tr>
+							<td class="table">Tytuł</td>
+							<td class="table">Autor</td>
+							<td class="table">Wydawca</td>
+							<td class="table">Data wydania</td>
+							<td class="table">Rodzaj</td>
+							<td class="table">Dostępnych</td>
+							<td class="table">Opcje</td>
+						</tr>
+						{% for book in books %}
 							<tr>
-								<td class="table">Tytuł</td>
-								<td class="table">Autor</td>
-								<td class="table">Wydawca</td>
-								<td class="table">Data wydania</td>
-								<td class="table">Rodzaj</td>
-								<td class="table">Dostępnych</td>
-								<td class="table">Opcje</td>
-							</tr>
-							<tr>
-								<td class="table">Harry Potter</td>
-								<td class="table">J.K.Rowling</td>
-								<td class="table">Media Rodzina</td>
-								<td class="table">01.01.2005</td>
-								<td class="table">Dla dzieci</td>
-								<td class="table">7</td>
+								<td class="table">{{ book.title }}</td>
+								<td class="table">{{ book.author }}</td>
+								<td class="table">{{ book.publisher }}</td>
+								<td class="table">{{ book.release }}</td>
+								<td class="table">{{ book.kind }}</td>
+								<td class="table">{{ book.amount }}</td>
 								<td class="table">
-									<input id="but" type="submit" name="reserve" value="Zarezerwuj" />
+									{% if book.amount != 0 %}
+									<div id="but"><a href="/user/{{ user_id }}/reserve/{{ book.book_id }}">Zarezerwuj</a></div>
+									{% endif %}
 								</td>
 							</tr>
-						</table>
-					</form>
+						{% endfor %}
+					</table>
 				</div>
 			</div>
 		</td>

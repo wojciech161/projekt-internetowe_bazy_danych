@@ -61,14 +61,16 @@
 								<td class="table">Rodzaj</td>
 								<td class="table">Data wypożyczenia</td>
 							</tr>
-							<tr>
-								<td class="table">Harry Potter</td>
-								<td class="table">J.K.Rowling</td>
-								<td class="table">Media Rodzina</td>
-								<td class="table">01.01.2005</td>
-								<td class="table">Dla dzieci</td>
-								<td class="table">12.09.2012</td>
-							</tr>
+							{% for borrow in borrows %}
+								<tr>
+									<td class="table">{{ borrow.title }}</td>
+									<td class="table">{{ borrow.author }}</td>
+									<td class="table">{{ borrow.publisher }}</td>
+									<td class="table">{{ borrow.release }}</td>
+									<td class="table">{{ borrow.kind }}</td>
+									<td class="table">{{ borrow.borrow_date }}</td>
+								</tr>
+							{% endfor %}
 						</table>
 					</form>
 				</div>

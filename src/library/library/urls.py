@@ -27,4 +27,7 @@ urlpatterns = patterns('',
     url(r'^user/(?P<user_id>\d+)/available_books/$', 'LibraryServer.views.user_available_books', name='user_available_books'),
     url(r'^user/(?P<user_id>\d+)/reservations/$', 'LibraryServer.views.user_reservations', name='user_reservations'),
     url(r'^user/(?P<user_id>\d+)/borrows/$', 'LibraryServer.views.user_borrows', name='user_borrows'),
+
+    url(r'^user/(?P<user_id>\d+)/reserve/(?P<book_id>\d+)/$', 'LibraryServer.views.user_reserve', name='user_reserve'),
+    url(r'^user/(?P<user_id>\d+)/reserve/delete/(?P<reservation_id>\d+)/$', 'LibraryServer.views.user_reserve_delete', name='user_reserve_delete'),
 )

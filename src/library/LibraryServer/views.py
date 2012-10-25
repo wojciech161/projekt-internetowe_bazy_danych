@@ -10,6 +10,10 @@ from LibraryServer.models import Reservation
 from LibraryServer.models import Publisher
 from LibraryServer.models import Tome
 from LibraryServer.models import Kind
+from BookHelper import BookHelper, get_books
+from datetime import date
+from ReservationHelper import ReservationHelper, get_reservations
+from BorrowHelper import BorrowHelper, get_borrows
 
 #Main pages
 
@@ -89,12 +93,64 @@ def librarian_borrow_select_user(request, user_id, book_id):
 
 def user_available_books(request, user_id):
 	if request.user.is_authenticated():
-		return render(request, 'views/user_available_books.html', {'user_id':user_id})
+		book_list = get_books()
+		return render(request, 'views/user_available_books.html', {'user_id':user_id, 'books': book_list})
 
 def user_reservations(request, user_id):
 	if request.user.is_authenticated():
-		return render(request, 'views/user_reservations.html', {'user_id':user_id})
+
+		reservations = get_reservations(user_id)
+
+		return render(request, 'views/user_reservations.html', {'user_id':user_id, 'reservations':reservations})
 
 def user_borrows(request, user_id):
 	if request.user.is_authenticated():
-		return render(request, 'views/user_borrows.html', {'user_id':user_id})
+
+		borrows = get_borrows(user_id)
+
+		return render(request, 'views/user_borrows.html', {'user_id':user_id, 'borrows':borrows})
+
+#User additional pages
+
+def user_reserve(request, user_id, book_id):
+	reservation = Reservation()
+	book = Book.objects.get(id = book_id)
+	user = User.objects.get(id = user_id)
+	reservation.book_id = book
+	reservation.user_id = user
+	reservation.date_of_reservation = date.today()
+
+	reservation.save()
+
+	tomes = Tome.objects.get(book_id = book)
+	tomes.amount = tomes.amount - 1
+	if tomes.amount == 0:
+		book.availability = 0
+		book.save()
+
+	tomes.save()
+
+	book_list = get_books()
+
+	return render(request, 'views/user_available_books.html', {'user_id':user_id, 'books': book_list})
+
+def user_reserve_delete(request, user_id, reservation_id):
+
+	reservation = Reservation.objects.get(id = reservation_id)
+	book = reservation.book_id
+	tome = Tome.objects.get(book_id = book)
+
+	tome.amount = tome.amount + 1
+	if book.availability == 0:
+		book.availability = 1
+		book.save()
+
+	tome.save()
+
+	reservation.delete()
+
+	reservations = get_reservations(user_id)
+	return render(request, 'views/user_reservations.html', {'user_id':user_id, 'reservations':reservations})
+
+
+
