@@ -4,7 +4,7 @@
 <head>
 	<title>Biblioteka - Wypożyczanie książek</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link href="{{ STATIC_URL }}style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body bgcolor="#FFFFFF" style="leftmargin=0px; topmargin=0px; marginwidth=0px; marginheight=0px">
@@ -14,9 +14,9 @@
 		<td colspan="4">
 			<div id="logo">
 				<div>
-					<a href="index.html">
-						<img src="images/mainlogo.png" alt="logo" width="103" height="62" border="0" 
-						style="float:left; padding-left:55px; padding-top: 30px; padding-right: 20px; " longdesc="index.html" />
+					<a href="/">
+						<img src="{{ STATIC_URL }}images/mainlogo.png" alt="logo" width="103" height="62" border="0" 
+						style="float:left; padding-left:55px; padding-top: 30px; padding-right: 20px; " longdesc="/" />
 					</a>
 				</div>
 				<div class="company-name">Biblioteka PWR</div>
@@ -24,7 +24,7 @@
 		</td>
 		
 		<td>
-			<img src="images/spacer.gif" width="1" height="134" alt="" />
+			<img src="{{ STATIC_URL }}images/spacer.gif" width="1" height="134" alt="" />
 		</td>
 	</tr>
 	
@@ -33,11 +33,11 @@
 		<td rowspan="2">
 			<div class="left_menu">
 				<ul>
-					<li><a href="librarian_user_list.html">Lista czytelników</a></li>
-					<li><a href="librarian_book_list.html">Lista książek</a></li>
-					<li><a href="librarian_borrow.html">Wypożyczanie</a></li>
-					<li><a href="librarian_return.html">Zwrot</a></li>
-					<li><a href="librarian_reservations_list.html">Lista rezerwacji</a></li>
+					<li><a href="/librarian/{{ user_id }}/user_list/">Lista czytelników</a></li>
+					<li><a href="/librarian/{{ user_id }}/book_list/">Lista książek</a></li>
+					<li><a href="/librarian/{{ user_id }}/borrow/">Wypożyczanie</a></li>
+					<li><a href="/librarian/{{ user_id }}/return/">Zwrot</a></li>
+					<li><a href="/librarian/{{ user_id }}/reservations_list/">Lista rezerwacji</a></li>
 				</ul>
 			</div>
 		</td>
@@ -79,7 +79,7 @@
 		</td>
 
 		<td>
-			<img src="images/spacer.gif" width="1" height="341" alt="" />
+			<img src="{{ STATIC_URL }}images/spacer.gif" width="1" height="341" alt="" />
 		</td>
 	</tr>
 

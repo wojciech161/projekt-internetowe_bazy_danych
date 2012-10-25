@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title>Biblioteka - Lista książek</title>
+	<title>Biblioteka - Moje wypożyczenia</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link href="{{ STATIC_URL }}style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -33,11 +33,9 @@
 		<td rowspan="2">
 			<div class="left_menu">
 				<ul>
-					<li><a href="/librarian/{{ user_id }}/user_list/">Lista czytelników</a></li>
-					<li><a href="/librarian/{{ user_id }}/book_list/">Lista książek</a></li>
-					<li><a href="/librarian/{{ user_id }}/borrow/">Wypożyczanie</a></li>
-					<li><a href="/librarian/{{ user_id }}/return/">Zwrot</a></li>
-					<li><a href="/librarian/{{ user_id }}/reservations_list/">Lista rezerwacji</a></li>
+					<li><a href="/user/{{ user_id }}/available_books/">Dostępne książki</a></li>
+					<li><a href="/user/{{ user_id }}/reservations/">Moje rezerwacje</a></li>
+					<li><a href="/user/{{ user_id }}/borrows/">Moje wypożyczenia</a></li>
 				</ul>
 			</div>
 		</td>
@@ -48,7 +46,7 @@
 		<td>
 			<div id="content-main">
 				<div class="title2">
-					Lista książek
+					Moje wypożyczenia
 				</div>
 				
 				<div class="content">
@@ -59,7 +57,7 @@
 							<td class="table">Wydawca</td>
 							<td class="table">Data wydania</td>
 							<td class="table">Rodzaj</td>
-							<td class="table">Dostępność</td>
+							<td class="table">Data rezerwacji</td>
 						</tr>
 						<tr>
 							<td class="table">Harry Potter</td>
@@ -67,7 +65,7 @@
 							<td class="table">Media Rodzina</td>
 							<td class="table">01.01.2005</td>
 							<td class="table">Dla dzieci</td>
-							<td class="table">Dostępna</td>
+							<td class="table">12.09.2012</td>
 						</tr>
 					</table>
 				</div>
