@@ -9,6 +9,7 @@ urlpatterns = patterns('',
 
     url(r'^$', 'LibraryServer.views.index', name='index'),
     url(r'^login/$', 'LibraryServer.views.login_page', name='login_page'),
+    url(r'^logout/$', 'LibraryServer.views.service_logout', name='service_logout'),
 
     url(r'^librarian/(?P<user_id>\d+)/book_list/$', 'LibraryServer.views.librarian_book_list', name='librarian_book_list'),
     url(r'^librarian/(?P<user_id>\d+)/borrow/$', 'LibraryServer.views.librarian_borrow', name='librarian_borrow'),

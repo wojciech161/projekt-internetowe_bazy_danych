@@ -1,16 +1,18 @@
 from django.contrib import admin
-from LibraryServer.models import Authors
-from LibraryServer.models import Users
-from LibraryServer.models import Books
-from LibraryServer.models import Borrows
-from LibraryServer.models import Reservations
-from LibraryServer.models import Publishers
-from LibraryServer.models import Tomes
+from LibraryServer.models import Author
+from LibraryServer.models import User
+from LibraryServer.models import Book
+from LibraryServer.models import Borrow
+from LibraryServer.models import Reservation
+from LibraryServer.models import Publisher
+from LibraryServer.models import Tome
+from LibraryServer.models import Kind
 
-admin.site.register(Authors)
-admin.site.register(Users)
-admin.site.register(Books)
-admin.site.register(Borrows)
-admin.site.register(Reservations)
-admin.site.register(Publishers)
-admin.site.register(Tomes)
+admin.site.register(Author)
+admin.site.register(User)
+admin.site.register(Book)
+admin.site.register(Borrow)
+admin.site.register(Reservation)
+admin.site.register(Publisher)
+admin.site.register(Tome)
+admin.site.register(Kind)
