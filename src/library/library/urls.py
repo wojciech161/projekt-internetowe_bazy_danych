@@ -22,6 +22,10 @@ urlpatterns = patterns('',
     url(r'^librarian/(?P<user_id>\d+)/librarian_browse_user_card/(?P<usercard_id>\d+)/$', 'LibraryServer.views.librarian_browse_user_card', name='librarian_browse_user_card'),
     url(r'^librarian/(?P<user_id>\d+)/librarian_deactivate_user/(?P<deactivated_user_id>\d+)/$', 'LibraryServer.views.librarian_deactivate_user', name='librarian_deactivate_user'),
     url(r'^librarian/(?P<user_id>\d+)/librarian_borrow_select_user/(?P<book_id>\d+)/$', 'LibraryServer.views.librarian_borrow_select_user', name='librarian_borrow_select_user'),
+    url(r'^librarian/(?P<user_id>\d+)/librarian_borrow_book_return_borrows/(?P<book_id>\d+)/user/(?P<borrower_id>\d+)/$', 'LibraryServer.views.librarian_borrow_book_return_borrows', name='librarian_borrow_book_return_borrows'),
+    url(r'^librarian/(?P<user_id>\d+)/librarian_borrow_book_return_reservations/(?P<reservation_id>\d+)/$', 'LibraryServer.views.librarian_borrow_book_return_reservations', name='librarian_borrow_book_return_reservations'),
+    url(r'^librarian/(?P<user_id>\d+)/librarian_return_book/(?P<borrow_id>\d+)/$', 'LibraryServer.views.librarian_return_book', name='librarian_return_book'),
+    url(r'^librarian/(?P<user_id>\d+)/librarian_delete_reservation/(?P<reservation_id>\d+)/$', 'LibraryServer.views.librarian_delete_reservation', name='librarian_delete_reservation'),
 
 
     url(r'^user/(?P<user_id>\d+)/available_books/$', 'LibraryServer.views.user_available_books', name='user_available_books'),

@@ -60,25 +60,27 @@
 							<td class="table">Data rezerwacji</td>
 							<td class="table">Opcje</td>
 						</tr>
+						{% for reservation in reservations %}
 						<tr>
-							<td class="table">Harry Potter</td>
-							<td class="table">Jurek Ogórek</td>
-							<td class="table">12.09.2012</td>
+							<td class="table">{{ reservation.title }}</td>
+							<td class="table">{{ reservation.reserver_name_surname }}</td>
+							<td class="table">{{ reservation.reservation_date }}</td>
 							<td class="table">
 								<table>
 									<tr>
 										<td>
-											<a href="librarian_reservations_list.html">Usuń</a>
+											<a href="/librarian/{{ user_id }}/librarian_delete_reservation/{{ reservation.reservation_id }}/">Usuń</a>
 										</td>
 									</tr>
 									<tr>
 										<td>
-											<a href="librarian_reservations_list.html">Wypożycz</a>
+											<a href="/librarian/{{ user_id }}/librarian_borrow_book_return_reservations/{{ reservation.reservation_id }}/">Wypożycz</a>
 										</td>
 									</tr>
 								</table>
 							</td>
 						</tr>
+						{% endfor %}
 					</table>
 				</div>
 			</div>

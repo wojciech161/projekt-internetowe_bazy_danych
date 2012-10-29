@@ -62,14 +62,22 @@
 							<td class="table">Rodzaj</td>
 							<td class="table">Dostępność</td>
 						</tr>
+						{% for book in books %}
 						<tr>
-							<td class="table">Harry Potter</td>
-							<td class="table">J.K.Rowling</td>
-							<td class="table">Media Rodzina</td>
-							<td class="table">01.01.2005</td>
-							<td class="table">Dla dzieci</td>
-							<td class="table">Dostępna</td>
+							<td class="table">{{ book.title }}</td>
+							<td class="table">{{ book.author }}</td>
+							<td class="table">{{ book.publisher }}</td>
+							<td class="table">{{ book.release }}</td>
+							<td class="table">{{ book.kind }}</td>
+							<td class="table">
+								{% if book.availability == 1%}
+									Dostępna
+								{% else %}
+									Niedostępna
+								{% endif %}
+							</td>
 						</tr>
+						{% endfor %}
 					</table>
 				</div>
 			</div>

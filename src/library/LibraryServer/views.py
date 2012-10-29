@@ -12,8 +12,9 @@ from LibraryServer.models import Tome
 from LibraryServer.models import Kind
 from BookHelper import BookHelper, get_books
 from datetime import date
-from ReservationHelper import ReservationHelper, get_reservations
-from BorrowHelper import BorrowHelper, get_borrows
+from ReservationHelper import ReservationHelper, get_reservations, get_all_reservations
+from BorrowHelper import BorrowHelper, get_borrows, get_all_borrows
+from UserHelper import UserHelper, get_all_readers
 
 #Main pages
 
@@ -48,45 +49,104 @@ def service_logout(request):
 
 def librarian_user_list(request, user_id):
 	if request.user.is_authenticated():
-		return render(request, 'views/librarian_user_list.html', {'user_id':user_id})
+
+		user_list = get_all_readers()
+
+		return render(request, 'views/librarian_user_list.html', {'user_id':user_id, 'users':user_list})
+	else:
+		return render(request, 'views/index.html')
 
 def librarian_book_list(request, user_id):
 	if request.user.is_authenticated():
-		return render(request, 'views/librarian_book_list.html', {'user_id':user_id})
+
+		book_list = get_books()
+
+		return render(request, 'views/librarian_book_list.html', {'user_id':user_id, 'books':book_list})
+	else:
+		return render(request, 'views/index.html')
 
 def librarian_borrow(request, user_id):
 	if request.user.is_authenticated():
-		return render(request, 'views/librarian_borrow.html', {'user_id':user_id})
+
+		book_list = get_books()
+
+		return render(request, 'views/librarian_borrow.html', {'user_id':user_id, 'books':book_list})
+	else:
+		return render(request, 'views/index.html')
 
 def librarian_return(request, user_id):
 	if request.user.is_authenticated():
-		return render(request, 'views/librarian_return.html', {'user_id':user_id})
+
+		borrows = get_all_borrows()
+
+		return render(request, 'views/librarian_return.html', {'user_id':user_id, 'borrows':borrows})
+	else:
+		return render(request, 'views/index.html')
 
 def librarian_reservations_list(request, user_id):
 	if request.user.is_authenticated():
-		return render(request, 'views/librarian_reservations_list.html', {'user_id':user_id})
+
+		reservations = get_all_reservations()
+
+		return render(request, 'views/librarian_reservations_list.html', {'user_id':user_id, 'reservations':reservations})
+	else:
+		return render(request, 'views/index.html')
 
 #Librarian additional pages
 
 def librarian_add_user(request, user_id):
 	if request.user.is_authenticated():
 		return HttpResponse("Dodaj uzytkownika")
+	else:
+		return render(request, 'views/index.html')
 
 def librarian_modify_user(request, user_id, modified_user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Modyfikuj uzytkownika %s", modified_user_id)
+		return HttpResponse("Modyfikuj uzytkownika")
+	else:
+		return render(request, 'views/index.html')
 
 def librarian_browse_user_card(request, user_id, usercard_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Przegladaj karte uzytkownika %s", usercard_id)
+		return HttpResponse("Przegladaj karte uzytkownika")
+	else:
+		return render(request, 'views/index.html')
 
 def librarian_deactivate_user(request, user_id, deactivated_user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Dezaktywuj uzytkownika %s", deactivated_user_id)
+		return HttpResponse("Dezaktywuj uzytkownika")
+	else:
+		return render(request, 'views/index.html')
 
 def librarian_borrow_select_user(request, user_id, book_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Wybierz uzytkownika co mu sie wypozycza ksiazke %s", book_id)
+		return HttpResponse("Wybierz uzytkownika co mu sie wypozycza ksiazke")
+	else:
+		return render(request, 'views/index.html')
+
+def librarian_borrow_book_return_borrows(request, user_id, book_id, borrower_id):
+	if request.user.is_authenticated():
+		return HttpResponse("Wypozycz ksiazke wroc do borrows")
+	else:
+		return render(request, 'views/index.html')
+
+def librarian_borrow_book_return_reservations(request, user_id, reservation_id):
+	if request.user.is_authenticated():
+		return HttpResponse("Wypozycz ksiazke wroc do reservations")
+	else:
+		return render(request, 'views/index.html')
+
+def librarian_return_book(request, user_id, borrow_id):
+	if request.user.is_authenticated():
+		return HttpResponse("Zwrot ksiazki")
+	else:
+		return render(request, 'views/index.html')
+
+def librarian_delete_reservation(request, user_id, reservation_id):
+	if request.user.is_authenticated():
+		return HttpResponse("Usun rezerwacje")
+	else:
+		return render(request, 'views/index.html')
 
 
 #User Main Pages
@@ -95,6 +155,8 @@ def user_available_books(request, user_id):
 	if request.user.is_authenticated():
 		book_list = get_books()
 		return render(request, 'views/user_available_books.html', {'user_id':user_id, 'books': book_list})
+	else:
+		return render(request, 'views/index.html')
 
 def user_reservations(request, user_id):
 	if request.user.is_authenticated():
@@ -102,6 +164,8 @@ def user_reservations(request, user_id):
 		reservations = get_reservations(user_id)
 
 		return render(request, 'views/user_reservations.html', {'user_id':user_id, 'reservations':reservations})
+	else:
+		return render(request, 'views/index.html')
 
 def user_borrows(request, user_id):
 	if request.user.is_authenticated():
@@ -109,48 +173,58 @@ def user_borrows(request, user_id):
 		borrows = get_borrows(user_id)
 
 		return render(request, 'views/user_borrows.html', {'user_id':user_id, 'borrows':borrows})
+	else:
+		return render(request, 'views/index.html')
 
 #User additional pages
 
 def user_reserve(request, user_id, book_id):
-	reservation = Reservation()
-	book = Book.objects.get(id = book_id)
-	user = User.objects.get(id = user_id)
-	reservation.book_id = book
-	reservation.user_id = user
-	reservation.date_of_reservation = date.today()
+	if request.user.is_authenticated():
 
-	reservation.save()
+		reservation = Reservation()
+		book = Book.objects.get(id = book_id)
+		user = User.objects.get(id = user_id)
+		reservation.book_id = book
+		reservation.user_id = user
+		reservation.date_of_reservation = date.today()
 
-	tomes = Tome.objects.get(book_id = book)
-	tomes.amount = tomes.amount - 1
-	if tomes.amount == 0:
-		book.availability = 0
-		book.save()
+		reservation.save()
 
-	tomes.save()
+		tomes = Tome.objects.get(book_id = book)
+		tomes.amount = tomes.amount - 1
+		if tomes.amount == 0:
+			book.availability = 0
+			book.save()
 
-	book_list = get_books()
+		tomes.save()
 
-	return render(request, 'views/user_available_books.html', {'user_id':user_id, 'books': book_list})
+		book_list = get_books()
+
+		return render(request, 'views/user_available_books.html', {'user_id':user_id, 'books': book_list})
+
+	else:
+		return render(request, 'views/index.html')
 
 def user_reserve_delete(request, user_id, reservation_id):
+	if request.user.is_authenticated():
+		reservation = Reservation.objects.get(id = reservation_id)
+		book = reservation.book_id
+		tome = Tome.objects.get(book_id = book)
 
-	reservation = Reservation.objects.get(id = reservation_id)
-	book = reservation.book_id
-	tome = Tome.objects.get(book_id = book)
+		tome.amount = tome.amount + 1
+		if book.availability == 0:
+			book.availability = 1
+			book.save()
 
-	tome.amount = tome.amount + 1
-	if book.availability == 0:
-		book.availability = 1
-		book.save()
+		tome.save()
 
-	tome.save()
+		reservation.delete()
 
-	reservation.delete()
+		reservations = get_reservations(user_id)
+		return render(request, 'views/user_reservations.html', {'user_id':user_id, 'reservations':reservations})
 
-	reservations = get_reservations(user_id)
-	return render(request, 'views/user_reservations.html', {'user_id':user_id, 'reservations':reservations})
+	else:
+		return render(request, 'views/index.html')
 
 
 

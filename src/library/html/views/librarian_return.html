@@ -58,16 +58,26 @@
 							<td class="table">Tytuł książki</td>
 							<td class="table">Wypożyczający</td>
 							<td class="table">Data wypożyczenia</td>
+							<td class="table">Kara</td>
 							<td class="table">Opcje</td>
 						</tr>
+						{% for borrow in borrows %}
 						<tr>
-							<td class="table">Harry Potter</td>
-							<td class="table">Jurek Ogórek</td>
-							<td class="table">12.09.2012</td>
+							<td class="table">{{ borrow.title }}</td>
+							<td class="table">{{ borrow.borrower_name_surname }}</td>
+							<td class="table">{{ borrow.borrow_date }}</td>
 							<td class="table">
-								<a href="librarian_return.html">Zwrot</a>
+								{% if borrow.fine %}
+									Tak
+								{% else %}
+									Nie
+								{% endif %}
+							</td>
+							<td class="table">
+								<a href="/librarian/{{ user_id }}/librarian_return_book/{{ borrow.borrow_id }}/">Zwrot</a>
 							</td>
 						</tr>
+						{% endfor %}
 					</table>
 				</div>
 			</div>

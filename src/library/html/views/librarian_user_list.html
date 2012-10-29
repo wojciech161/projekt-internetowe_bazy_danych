@@ -52,7 +52,7 @@
 					Lista czytelników
 				</div>
 
-				<a href="librarian_user_list.html">Dodaj użytkownika</a>
+				<a href="/librarian/{{ user_id }}/librarian_add_user/">Dodaj użytkownika</a>
 
 				<div class="content">
 					<table style="border:1px solid black">
@@ -62,34 +62,44 @@
 							<td class="table">Adres</td>
 							<td class="table">Data urodzenia</td>
 							<td class="table">PESEL</td>
+							<td class="table">Aktywny</td>
 							<td class="table">Opcje</td>
 						</tr>
-						<tr>
-							<td class="table">Jurek </td>
-							<td class="table">Ogórek</td>
-							<td class="table">Ćwiartki 3/4</td>
-							<td class="table">01.01.2001</td>
-							<td class="table">123456789101</td>
-							<td class="table">
-								<table>
-									<tr>
-										<td>
-											<a href="librarian_user_list.html">Modyfikuj</a>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="librarian_user_list.html">Przeglądaj kartę</a>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="librarian_user_list.html">Dezaktywuj</a>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
+						{% for user in users %}
+							<tr>
+								<td class="table">{{ user.name }}</td>
+								<td class="table">{{ user.surname }}</td>
+								<td class="table">{{ user.address }}</td>
+								<td class="table">{{ user.birth_date }}</td>
+								<td class="table">{{ user.pesel }}</td>
+								<td class="table">
+									{% if user.active == 1 %}
+										Tak
+									{% else %}
+										Nie
+									{% endif %}
+								</td>
+								<td class="table">
+									<table>
+										<tr>
+											<td>
+												<a href="/librarian/{{ user_id }}/librarian_modify_user/{{ user.user_id }}/">Modyfikuj</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<a href="/librarian/{{ user_id }}/librarian_browse_user_card/{{ user.user_id }}/">Przeglądaj kartę</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<a href="/librarian/{{ user_id }}/librarian_deactivate_user/{{ user.user_id }}/">Dezaktywuj</a>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						{% endfor %}
 					</table>
 				</div>
 			</div>
