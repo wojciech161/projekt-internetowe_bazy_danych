@@ -51,10 +51,6 @@
 				<div class="title2">
 					Lista czytelników
 				</div>
-				
-				<div style="align-text:center;">
-					<a href="/librarian/{{ user_id }}/librarian_add_user/">Dodaj użytkownika</a>
-				</div>
 
 				<div class="content">
 					<table style="border:1px solid black">
@@ -64,10 +60,10 @@
 							<td class="table">Adres</td>
 							<td class="table">Data urodzenia</td>
 							<td class="table">PESEL</td>
-							<td class="table">Aktywny</td>
 							<td class="table">Opcje</td>
 						</tr>
 						{% for user in users %}
+						{% if user.active == 1 %}
 							<tr>
 								<td class="table">{{ user.name }}</td>
 								<td class="table">{{ user.surname }}</td>
@@ -75,32 +71,16 @@
 								<td class="table">{{ user.birth_date }}</td>
 								<td class="table">{{ user.pesel }}</td>
 								<td class="table">
-									{% if user.active == 1 %}
-										Tak
-									{% else %}
-										Nie
-									{% endif %}
-								</td>
-								<td class="table">
 									<table>
 										<tr>
 											<td>
-												<a href="/librarian/{{ user_id }}/librarian_modify_user/{{ user.user_id }}/">Modyfikuj</a>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<a href="/librarian/{{ user_id }}/librarian_browse_user_card/{{ user.user_id }}/">Przeglądaj kartę</a>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<a href="/librarian/{{ user_id }}/librarian_deactivate_user/{{ user.user_id }}/">Dezaktywuj</a>
+												<a href="/librarian/{{ user_id }}/librarian_borrow_book_return_borrows/{{ book_id }}/user/{{ user.user_id }}/">Wypożycz</a>
 											</td>
 										</tr>
 									</table>
 								</td>
 							</tr>
+						{% endif %}
 						{% endfor %}
 					</table>
 				</div>

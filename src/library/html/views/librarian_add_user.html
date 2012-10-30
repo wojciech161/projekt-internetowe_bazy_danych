@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title>Biblioteka - Lista użytkowników</title>
+	<title>Biblioteka - Dodaj użytkownika</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link href="{{ STATIC_URL }}style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -49,60 +49,61 @@
 		<td>
 			<div id="content-main">
 				<div class="title2">
-					Lista czytelników
-				</div>
-				
-				<div style="align-text:center;">
-					<a href="/librarian/{{ user_id }}/librarian_add_user/">Dodaj użytkownika</a>
+					Dodaj użytkownika
 				</div>
 
 				<div class="content">
-					<table style="border:1px solid black">
-						<tr>
-							<td class="table">Imię</td>
-							<td class="table">Nazwisko</td>
-							<td class="table">Adres</td>
-							<td class="table">Data urodzenia</td>
-							<td class="table">PESEL</td>
-							<td class="table">Aktywny</td>
-							<td class="table">Opcje</td>
-						</tr>
-						{% for user in users %}
+					<form action="/librarian/{{ user_id }}/librarian_add_user/" method="post">{% csrf_token %}
+						<table style="border:1px solid black">
 							<tr>
-								<td class="table">{{ user.name }}</td>
-								<td class="table">{{ user.surname }}</td>
-								<td class="table">{{ user.address }}</td>
-								<td class="table">{{ user.birth_date }}</td>
-								<td class="table">{{ user.pesel }}</td>
+								<td class="table">Login</td>
 								<td class="table">
-									{% if user.active == 1 %}
-										Tak
-									{% else %}
-										Nie
-									{% endif %}
-								</td>
-								<td class="table">
-									<table>
-										<tr>
-											<td>
-												<a href="/librarian/{{ user_id }}/librarian_modify_user/{{ user.user_id }}/">Modyfikuj</a>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<a href="/librarian/{{ user_id }}/librarian_browse_user_card/{{ user.user_id }}/">Przeglądaj kartę</a>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<a href="/librarian/{{ user_id }}/librarian_deactivate_user/{{ user.user_id }}/">Dezaktywuj</a>
-											</td>
-										</tr>
-									</table>
+									<input type="text" name="edit_login" /> 
 								</td>
 							</tr>
-						{% endfor %}
-					</table>
+							<tr>
+								<td class="table">Hasło</td>
+								<td class="table">
+									<input type="text" name="edit_password" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">Imię</td>
+								<td class="table">
+									<input type="text" name="edit_name" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">Nazwisko</td>
+								<td class="table">
+									<input type="text" name="edit_surname" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">Adres</td>
+								<td class="table">
+									<input type="text" name="edit_address" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">Data urodzenia YYYY-MM-DD</td>
+								<td class="table">
+									<input type="text" name="edit_date_of_birth" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">Pesel</td>
+								<td class="table">
+									<input type="text" name="edit_pesel" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">
+									<input id="but" type="submit" name="log_in" value="Dodaj" />
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
 			</div>
 		</td>

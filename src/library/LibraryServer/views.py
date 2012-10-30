@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, models
 from django.core.urlresolvers import reverse
 from LibraryServer.models import Author
 from LibraryServer.models import User
@@ -96,7 +96,30 @@ def librarian_reservations_list(request, user_id):
 
 def librarian_add_user(request, user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Dodaj uzytkownika")
+
+		if request.POST:
+			user = User()
+			user.login = request.POST.get('edit_login')
+			user.name = request.POST.get('edit_name')
+			user.surname = request.POST.get('edit_surname')
+			user.address = request.POST.get('edit_address')
+			user.date_of_birth = request.POST.get('edit_date_of_birth')
+			user.pesel = request.POST.get('edit_pesel')
+			user.user_type = 2
+			user.user_active = 1
+			password = request.POST.get('edit_password')
+
+			user.save()
+
+			usr = models.User.objects.create_user(user.login, 'user@biblioteka.pl', password)
+			usr.is_staff = False
+			usr.save()
+
+			user_list = get_all_readers()
+
+			return render(request, 'views/librarian_user_list.html', {'user_id':user_id, 'users':user_list})
+
+		return render(request, 'views/librarian_add_user.html', {'user_id':user_id})
 	else:
 		return render(request, 'views/index.html')
 
@@ -114,37 +137,109 @@ def librarian_browse_user_card(request, user_id, usercard_id):
 
 def librarian_deactivate_user(request, user_id, deactivated_user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Dezaktywuj uzytkownika")
+		user = User.objects.get(id = deactivated_user_id)
+		user.user_active = 0
+		user.save()
+		user_list = get_all_readers()
+
+		return render(request, 'views/librarian_user_list.html', {'user_id':user_id, 'users':user_list})
 	else:
 		return render(request, 'views/index.html')
 
 def librarian_borrow_select_user(request, user_id, book_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Wybierz uzytkownika co mu sie wypozycza ksiazke")
+		users = get_all_readers()
+		return render(request, 'views/librarian_borrow_select_user.html', {'user_id':user_id, 'users':users, 'book_id':book_id})
 	else:
 		return render(request, 'views/index.html')
 
 def librarian_borrow_book_return_borrows(request, user_id, book_id, borrower_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Wypozycz ksiazke wroc do borrows")
+		borrow = Borrow()
+		borrow.book_id = Book.objects.get(id = book_id)
+		borrow.user_id = User.objects.get(id = borrower_id)
+		borrow.date_of_borrow = date.today()
+
+		borrow.save()
+
+		tome = Tome.objects.get(book_id = borrow.book_id)
+		tome.amount = tome.amount - 1
+		tome.save()
+
+		if tome.amount == 0:
+			borrow.book_id.availability = 0
+			borrow.book_id.save()
+
+		book_list = get_books()
+
+		return render(request, 'views/librarian_borrow.html', {'user_id':user_id, 'books':book_list})
+
 	else:
 		return render(request, 'views/index.html')
 
 def librarian_borrow_book_return_reservations(request, user_id, reservation_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Wypozycz ksiazke wroc do reservations")
+		
+		reservation = Reservation.objects.get(id = reservation_id)
+
+		borrow = Borrow()
+		borrow.book_id = reservation.book_id
+		borrow.user_id = reservation.user_id
+		borrow.date_of_borrow = date.today()
+
+		borrow.save()
+
+		reservation.delete()
+
+		reservations = get_all_reservations()
+
+		return render(request, 'views/librarian_reservations_list.html', {'user_id':user_id, 'reservations':reservations})
 	else:
 		return render(request, 'views/index.html')
 
 def librarian_return_book(request, user_id, borrow_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Zwrot ksiazki")
+		
+		borrow = Borrow.objects.get(id = borrow_id)
+		book = borrow.book_id
+		tome = Tome.objects.get(book_id = book)
+
+		tome.amount = tome.amount + 1
+		if book.availability == 0:
+			book.availability = 1
+			book.save()
+
+		tome.save()
+
+		borrow.delete()
+
+		borrows = get_all_borrows()
+
+		return render(request, 'views/librarian_return.html', {'user_id':user_id, 'borrows':borrows})
+
 	else:
 		return render(request, 'views/index.html')
 
 def librarian_delete_reservation(request, user_id, reservation_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Usun rezerwacje")
+		
+		reservation = Reservation.objects.get(id = reservation_id)
+		book = reservation.book_id
+		tome = Tome.objects.get(book_id = book)
+
+		tome.amount = tome.amount + 1
+		if book.availability == 0:
+			book.availability = 1
+			book.save()
+
+		tome.save()
+
+		reservation.delete()
+
+		reservations = get_all_reservations()
+
+		return render(request, 'views/librarian_reservations_list.html', {'user_id':user_id, 'reservations':reservations})
+
 	else:
 		return render(request, 'views/index.html')
 
