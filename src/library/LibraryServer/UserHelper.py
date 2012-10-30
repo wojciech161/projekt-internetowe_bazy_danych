@@ -35,3 +35,19 @@ def get_all_readers():
 		result.append(user_helper)
 
 	return result
+
+def get_reader(uid):
+	user = User.objects.get(id = uid)
+
+	user_helper = UserHelper()
+
+	user_helper = UserHelper()
+	user_helper.name = user.name
+	user_helper.surname = user.surname
+	user_helper.address = user.address
+	user_helper.birth_date = user.date_of_birth
+	user_helper.pesel = user.pesel
+	user_helper.active = user.user_active
+	user_helper.user_id = user.id
+
+	return user_helper

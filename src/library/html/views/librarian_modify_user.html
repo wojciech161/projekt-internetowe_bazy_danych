@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>Biblioteka - Modyfikuj użytkownika</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="{{ STATIC_URL }}style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body bgcolor="#FFFFFF" style="leftmargin=0px; topmargin=0px; marginwidth=0px; marginheight=0px">
+<table style="width=1001px; height=1200px;" border="0" align="center" cellpadding="0" cellspacing="0" id="Table_01">
+
+	<tr>
+		<td colspan="4">
+			<div id="logo">
+				<div>
+					<a href="/">
+						<img src="{{ STATIC_URL }}images/mainlogo.png" alt="logo" width="103" height="62" border="0" 
+						style="float:left; padding-left:55px; padding-top: 30px; padding-right: 20px; " longdesc="/" />
+					</a>
+				</div>
+				<div class="company-name">Biblioteka PWR</div>
+			</div>
+		</td>
+		
+		<td>
+			<img src="{{ STATIC_URL }}images/spacer.gif" width="1" height="134" alt="" />
+		</td>
+	</tr>
+	
+	<tr>
+
+		<td rowspan="2">
+			<div class="left_menu">
+				<ul>
+					<li><a href="/librarian/{{ user_id }}/user_list/">Lista czytelników</a></li>
+					<li><a href="/librarian/{{ user_id }}/book_list/">Lista książek</a></li>
+					<li><a href="/librarian/{{ user_id }}/borrow/">Wypożyczanie</a></li>
+					<li><a href="/librarian/{{ user_id }}/return/">Zwrot</a></li>
+					<li><a href="/librarian/{{ user_id }}/reservations_list/">Lista rezerwacji</a></li>
+					<li><a href="/logout/">Wyloguj</a></li>
+				</ul>
+			</div>
+		</td>
+
+	</tr>
+
+	<tr>
+		<td>
+			<div id="content-main">
+				<div class="title2">
+					Modyfikuj użytkownika
+				</div>
+
+				<div class="content">
+					<form action="/librarian/{{ user_id }}/librarian_modify_user/{{ modified_user_id }}/" method="post">{% csrf_token %}
+						<table style="border:1px solid black">
+							<tr>
+								<td class="table">Imię</td>
+								<td class="table">
+									<input type="text" name="edit_name" value="{{ reader.name }}" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">Nazwisko</td>
+								<td class="table">
+									<input type="text" name="edit_surname" value="{{ reader.surname }}" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">Adres</td>
+								<td class="table">
+									<input type="text" name="edit_address" value="{{ reader.address }}" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">Data urodzenia YYYY-MM-DD</td>
+								<td class="table">
+									<input type="text" name="edit_date_of_birth" value="{{ date }}" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">Pesel</td>
+								<td class="table">
+									<input type="text" name="edit_pesel" value="{{ reader.pesel }}" /> 
+								</td>
+							</tr>
+							<tr>
+								<td class="table">
+									<input id="but" type="submit" name="log_in" value="Modyfikuj" />
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+		</td>
+
+		<td>
+			<img src="{{ STATIC_URL }}images/spacer.gif" width="1" height="341" alt="" />
+		</td>
+	</tr>
+
+</table>
+</body>
+</html>

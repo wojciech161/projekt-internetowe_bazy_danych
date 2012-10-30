@@ -14,7 +14,7 @@ from BookHelper import BookHelper, get_books
 from datetime import date
 from ReservationHelper import ReservationHelper, get_reservations, get_all_reservations
 from BorrowHelper import BorrowHelper, get_borrows, get_all_borrows
-from UserHelper import UserHelper, get_all_readers
+from UserHelper import UserHelper, get_all_readers, get_reader
 
 #Main pages
 
@@ -109,6 +109,9 @@ def librarian_add_user(request, user_id):
 			user.user_active = 1
 			password = request.POST.get('edit_password')
 
+			if len(User.objects.filter(login = user.login)) == 1:
+				return render(request, 'views/librarian_add_user.html', {'user_id':user_id})
+
 			user.save()
 
 			usr = models.User.objects.create_user(user.login, 'user@biblioteka.pl', password)
@@ -125,13 +128,54 @@ def librarian_add_user(request, user_id):
 
 def librarian_modify_user(request, user_id, modified_user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Modyfikuj uzytkownika")
+		reader = get_reader(modified_user_id)
+		day = reader.birth_date.day
+		month = reader.birth_date.month
+		year = reader.birth_date.year
+
+		date = str(year) + "-" + str(month) + "-" + str(day)
+
+		if request.POST:
+			user = User.objects.get(id = reader.user_id)
+			user.name = request.POST.get('edit_name')
+			user.surname = request.POST.get('edit_surname')
+			user.address = request.POST.get('edit_address')
+			user.date_of_birth = request.POST.get('edit_date_of_birth')
+			user.pesel = request.POST.get('edit_pesel')
+			user.user_active = 1
+			user.save()
+
+			user_list = get_all_readers()
+			return render(request, 'views/librarian_user_list.html', {'user_id':user_id, 'users':user_list})
+
+		return render(request, 'views/librarian_modify_user.html', {'user_id':user_id, 'modified_user_id':modified_user_id, 'reader':reader, 'date':date})
 	else:
 		return render(request, 'views/index.html')
 
+def librarian_return_user_book(request, user_id, borrow_id):
+	if request.user.is_authenticated():
+		
+		borrow = Borrow.objects.get(id = borrow_id)
+		book = borrow.book_id
+		tome = Tome.objects.get(book_id = book)
+
+		tome.amount = tome.amount + 1
+		if book.availability == 0:
+			book.availability = 1
+			book.save()
+
+		tome.save()
+
+		borrow.delete()
+
+		borrows = get_borrows(borrow.user_id)
+		return render(request, 'views/librarian_browse_user_card.html', {'user_id':user_id, 'borrows':borrows})
+
+
 def librarian_browse_user_card(request, user_id, usercard_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Przegladaj karte uzytkownika")
+		borrows = get_borrows(usercard_id)
+		return render(request, 'views/librarian_browse_user_card.html', {'user_id':user_id, 'borrows':borrows})
 	else:
 		return render(request, 'views/index.html')
 

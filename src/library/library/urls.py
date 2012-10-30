@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^librarian/(?P<user_id>\d+)/librarian_borrow_book_return_reservations/(?P<reservation_id>\d+)/$', 'LibraryServer.views.librarian_borrow_book_return_reservations', name='librarian_borrow_book_return_reservations'),
     url(r'^librarian/(?P<user_id>\d+)/librarian_return_book/(?P<borrow_id>\d+)/$', 'LibraryServer.views.librarian_return_book', name='librarian_return_book'),
     url(r'^librarian/(?P<user_id>\d+)/librarian_delete_reservation/(?P<reservation_id>\d+)/$', 'LibraryServer.views.librarian_delete_reservation', name='librarian_delete_reservation'),
-
+    url(r'^librarian/(?P<user_id>\d+)/librarian_return_user_book/(?P<borrow_id>\d+)/$', 'LibraryServer.views.librarian_return_user_book', name='librarian_return_user_book'),
 
     url(r'^user/(?P<user_id>\d+)/available_books/$', 'LibraryServer.views.user_available_books', name='user_available_books'),
     url(r'^user/(?P<user_id>\d+)/reservations/$', 'LibraryServer.views.user_reservations', name='user_reservations'),
