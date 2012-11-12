@@ -56,7 +56,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/home/marcin/Desktop/projekt-internetowe_bazy_danych/src/library/static'
+STATIC_ROOT = '/home/marcin/work/projekt-internetowe_bazy_danych/src/library/static'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -64,7 +64,7 @@ STATIC_URL = '/images/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    '/home/marcin/Desktop/projekt-internetowe_bazy_danych/src/library/static/main',
+    '/home/marcin/work/projekt-internetowe_bazy_danych/src/library/static/main',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -104,7 +104,7 @@ ROOT_URLCONF = 'library.urls'
 WSGI_APPLICATION = 'library.wsgi.application'
 
 TEMPLATE_DIRS = (
-    '/home/marcin/Desktop/projekt-internetowe_bazy_danych/src/library/html'
+    '/home/marcin/work/projekt-internetowe_bazy_danych/src/library/html'
 )
 
 INSTALLED_APPS = (

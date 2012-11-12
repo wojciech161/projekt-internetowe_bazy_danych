@@ -66,6 +66,7 @@
 							<td class="table">PESEL</td>
 							<td class="table">Aktywny</td>
 							<td class="table">Opcje</td>
+							<td class="table">Liczba wypożyczonych książek</td>
 						</tr>
 						{% for user in users %}
 							<tr>
@@ -100,6 +101,7 @@
 										</tr>
 									</table>
 								</td>
+								<td class="table">{{ user.number_of_borrows }}</td>
 							</tr>
 						{% endfor %}
 					</table>

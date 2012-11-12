@@ -15,6 +15,7 @@ class UserHelper:
 	pesel = 0
 	active = 0
 	user_id = 0
+	number_of_borrows = 0
 
 def get_all_readers():
 
@@ -31,6 +32,9 @@ def get_all_readers():
 		user_helper.pesel = user.pesel
 		user_helper.active = user.user_active
 		user_helper.user_id = user.id
+
+		borrows = Borrow.objects.filter(user_id = user.id)
+		user_helper.number_of_borrows = len(borrows)
 
 		result.append(user_helper)
 
@@ -49,5 +53,6 @@ def get_reader(uid):
 	user_helper.pesel = user.pesel
 	user_helper.active = user.user_active
 	user_helper.user_id = user.id
+
 
 	return user_helper
